@@ -13,9 +13,10 @@ class ProductManagerTest {
     private ProductRepository repository = new ProductRepository();
     private ProductManager manager = new ProductManager(repository);
     private Product first = new Book(1, "Lord of the Ring", 500, "Tolkien");
-    private Product second = new Book(2, "Harry Potter", 350, "Rowling");
-    private Product third  = new Smartphone(3, "Z1", 11000, "Asus");
-    private Product forth  = new Smartphone(4, "Galaxy", 20000, "Samsung");
+    private Product second = new Book(2, "Hobbit", 350, "Tolkien");
+    private Product third = new Book(2, "Harry Potter", 350, "Rowling");
+    private Product forth  = new Smartphone(3, "Z1", 11000, "Asus");
+    private Product fifth  = new Smartphone(4, "Galaxy", 20000, "Samsung");
 
 
     @BeforeEach
@@ -24,12 +25,14 @@ class ProductManagerTest {
         manager.add(second);
         manager.add(third);
         manager.add(forth);
+        manager.add(fifth);
+        
     }
 
     @Test
     public void getAllProduct() {
         Product[] actual = repository.findAll();
-        Product[] expected = new Product[]{first, second, third, forth};
+        Product[] expected = new Product[]{first, second, third, forth, fifth};
         assertArrayEquals(expected, actual);
     }
 
@@ -44,28 +47,28 @@ class ProductManagerTest {
     @Test
     public void searchBookByAuthorName() {
         Product[] actual = manager.searchBy("Tolkien");
-        Product[] expected = new Product[]{first};
+        Product[] expected = new Product[]{first, second};
         assertArrayEquals(expected, actual);
     }
 
     @Test
     public void searchBookByName() {
         Product[] actual = manager.searchBy("Harry Potter");
-        Product[] expected = new Product[]{second};
+        Product[] expected = new Product[]{third};
         assertArrayEquals(expected, actual);
     }
 
     @Test
     public void searchSmartphoneByName() {
         Product[] actual = manager.searchBy("Z1");
-        Product[] expected = new Product[]{third};
+        Product[] expected = new Product[]{forth};
         assertArrayEquals(expected, actual);
     }
 
     @Test
     public void searchSmartphoneByManufacturer() {
         Product[] actual = manager.searchBy("Samsung");
-        Product[] expected = new Product[]{forth};
+        Product[] expected = new Product[]{fifth};
         assertArrayEquals(expected, actual);
     }
 
